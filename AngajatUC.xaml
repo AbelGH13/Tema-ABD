@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="AutoWash.AngajatUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutoWash"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Cyan">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Toate programarile"
+                   FontSize="25"
+                   HorizontalAlignment="Center"/>
+
+        <DataGrid Grid.Row="1"
+                  Margin="5 0 5 0"
+                  Name="ProgramariDataGrid"
+                  ItemsSource="{Binding}"
+                  IsSynchronizedWithCurrentItem="True"
+                  IsReadOnly="True"
+                  AlternatingRowBackground="DarkGray"/>
+        <Button Name="AcceptButton"
+                Click="AcceptButton_Click"
+                Grid.Row="2"
+                Width="150"
+                Height="40"
+                Content="Accept"
+                FontSize="20"/>
+
+        <TextBlock Text="Programari acceptate"
+                   FontSize="25"
+                   Grid.Row="3"
+                   HorizontalAlignment="Center"/>
+        <DataGrid Name="ProgramariAcceptateDataGrid"
+                  Grid.Row="4"
+                  ItemsSource="{Binding}"
+                  IsSynchronizedWithCurrentItem="True"
+                  IsReadOnly="True"
+                  AlternatingRowBackground="DarkGray"
+                  Margin="5 0 5 0"/>
+        <Button Name="DoneButton"
+                Click="DoneButton_Click"
+                Content="Done"
+                Grid.Row="5"
+                Height="40"
+                Width="150"
+                FontSize="20"/>
+
+        <Button Name="HomeButton"
+                Click="HomeButton_Click"
+                Grid.Row="5"
+                Height="40"
+                Width="40"
+                HorizontalAlignment="Left"
+                Margin="10 0 0 0"
+                Background="Cyan"
+                BorderThickness="0">
+            <Image Source="HomeIcon.png"/>
+        </Button>
+    </Grid>
+</UserControl>

@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SpalatorieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clienti">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumarTelefon" Type="int" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Parola" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipClient" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IstoricProgramari">
+          <Key>
+            <PropertyRef Name="IstoricID" />
+          </Key>
+          <Property Name="IstoricID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProgramareID" Type="int" Nullable="false" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="NumarTelefon" Type="int" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TipulSpalarii" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Ora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="MuncitorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manageri">
+          <Key>
+            <PropertyRef Name="ManagerID" />
+          </Key>
+          <Property Name="ManagerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Parola" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Muncitori">
+          <Key>
+            <PropertyRef Name="MuncitorID" />
+          </Key>
+          <Property Name="MuncitorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Parola" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Programari">
+          <Key>
+            <PropertyRef Name="ProgramareID" />
+          </Key>
+          <Property Name="ProgramareID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MuncitorID" Type="int" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="NumarTelefon" Type="int" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TipulSpalarii" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Ora" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiciiSpalatorie">
+          <Key>
+            <PropertyRef Name="TipID" />
+          </Key>
+          <Property Name="TipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipSpalare" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pret" Type="money" Nullable="false" />
+          <Property Name="PretRedus" Type="money" />
+        </EntityType>
+        <Association Name="FK__IstoricPr__Clien__1B0907CE">
+          <End Role="Clienti" Type="Self.Clienti" Multiplicity="0..1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clienti">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IstoricPr__Munci__1BFD2C07">
+          <End Role="Muncitori" Type="Self.Muncitori" Multiplicity="1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Muncitori">
+              <PropertyRef Name="MuncitorID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="MuncitorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IstoricPr__Progr__1A14E395">
+          <End Role="Programari" Type="Self.Programari" Multiplicity="1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programari">
+              <PropertyRef Name="ProgramareID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="ProgramareID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Programar__Clien__173876EA">
+          <End Role="Clienti" Type="Self.Clienti" Multiplicity="0..1" />
+          <End Role="Programari" Type="Self.Programari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clienti">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Programari">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Programar__Munci__164452B1">
+          <End Role="Muncitori" Type="Self.Muncitori" Multiplicity="0..1" />
+          <End Role="Programari" Type="Self.Programari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Muncitori">
+              <PropertyRef Name="MuncitorID" />
+            </Principal>
+            <Dependent Role="Programari">
+              <PropertyRef Name="MuncitorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpalatorieModelStoreContainer">
+          <EntitySet Name="Clienti" EntityType="Self.Clienti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IstoricProgramari" EntityType="Self.IstoricProgramari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manageri" EntityType="Self.Manageri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Muncitori" EntityType="Self.Muncitori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programari" EntityType="Self.Programari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiciiSpalatorie" EntityType="Self.ServiciiSpalatorie" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__IstoricPr__Clien__1B0907CE" Association="Self.FK__IstoricPr__Clien__1B0907CE">
+            <End Role="Clienti" EntitySet="Clienti" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IstoricPr__Munci__1BFD2C07" Association="Self.FK__IstoricPr__Munci__1BFD2C07">
+            <End Role="Muncitori" EntitySet="Muncitori" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IstoricPr__Progr__1A14E395" Association="Self.FK__IstoricPr__Progr__1A14E395">
+            <End Role="Programari" EntitySet="Programari" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Programar__Clien__173876EA" Association="Self.FK__Programar__Clien__173876EA">
+            <End Role="Clienti" EntitySet="Clienti" />
+            <End Role="Programari" EntitySet="Programari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Programar__Munci__164452B1" Association="Self.FK__Programar__Munci__164452B1">
+            <End Role="Muncitori" EntitySet="Muncitori" />
+            <End Role="Programari" EntitySet="Programari" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SpalatorieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Clienti">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumarTelefon" Type="Int32" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Parola" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipClient" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="IstoricProgramari" Relationship="Self.FK__IstoricPr__Clien__1B0907CE" FromRole="Clienti" ToRole="IstoricProgramari" />
+          <NavigationProperty Name="Programari" Relationship="Self.FK__Programar__Clien__173876EA" FromRole="Clienti" ToRole="Programari" />
+        </EntityType>
+        <EntityType Name="IstoricProgramari">
+          <Key>
+            <PropertyRef Name="IstoricID" />
+          </Key>
+          <Property Name="IstoricID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProgramareID" Type="Int32" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="NumarTelefon" Type="Int32" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipulSpalarii" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Ora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="MuncitorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Clienti" Relationship="Self.FK__IstoricPr__Clien__1B0907CE" FromRole="IstoricProgramari" ToRole="Clienti" />
+          <NavigationProperty Name="Muncitori" Relationship="Self.FK__IstoricPr__Munci__1BFD2C07" FromRole="IstoricProgramari" ToRole="Muncitori" />
+          <NavigationProperty Name="Programari" Relationship="Self.FK__IstoricPr__Progr__1A14E395" FromRole="IstoricProgramari" ToRole="Programari" />
+        </EntityType>
+        <EntityType Name="Manageri">
+          <Key>
+            <PropertyRef Name="ManagerID" />
+          </Key>
+          <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Parola" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Muncitori">
+          <Key>
+            <PropertyRef Name="MuncitorID" />
+          </Key>
+          <Property Name="MuncitorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AdresaEMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Parola" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="IstoricProgramari" Relationship="Self.FK__IstoricPr__Munci__1BFD2C07" FromRole="Muncitori" ToRole="IstoricProgramari" />
+          <NavigationProperty Name="Programari" Relationship="Self.FK__Programar__Munci__164452B1" FromRole="Muncitori" ToRole="Programari" />
+        </EntityType>
+        <EntityType Name="Programari">
+          <Key>
+            <PropertyRef Name="ProgramareID" />
+          </Key>
+          <Property Name="ProgramareID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MuncitorID" Type="Int32" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="NumarTelefon" Type="Int32" Nullable="false" />
+          <Property Name="NumarInmatriculare" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipulSpalarii" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Ora" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Clienti" Relationship="Self.FK__Programar__Clien__173876EA" FromRole="Programari" ToRole="Clienti" />
+          <NavigationProperty Name="IstoricProgramari" Relationship="Self.FK__IstoricPr__Progr__1A14E395" FromRole="Programari" ToRole="IstoricProgramari" />
+          <NavigationProperty Name="Muncitori" Relationship="Self.FK__Programar__Munci__164452B1" FromRole="Programari" ToRole="Muncitori" />
+        </EntityType>
+        <EntityType Name="ServiciiSpalatorie">
+          <Key>
+            <PropertyRef Name="TipID" />
+          </Key>
+          <Property Name="TipID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipSpalare" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pret" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="PretRedus" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK__IstoricPr__Clien__1B0907CE">
+          <End Role="Clienti" Type="Self.Clienti" Multiplicity="0..1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clienti">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Programar__Clien__173876EA">
+          <End Role="Clienti" Type="Self.Clienti" Multiplicity="0..1" />
+          <End Role="Programari" Type="Self.Programari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clienti">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Programari">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IstoricPr__Munci__1BFD2C07">
+          <End Role="Muncitori" Type="Self.Muncitori" Multiplicity="1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Muncitori">
+              <PropertyRef Name="MuncitorID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="MuncitorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IstoricPr__Progr__1A14E395">
+          <End Role="Programari" Type="Self.Programari" Multiplicity="1" />
+          <End Role="IstoricProgramari" Type="Self.IstoricProgramari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programari">
+              <PropertyRef Name="ProgramareID" />
+            </Principal>
+            <Dependent Role="IstoricProgramari">
+              <PropertyRef Name="ProgramareID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Programar__Munci__164452B1">
+          <End Role="Muncitori" Type="Self.Muncitori" Multiplicity="0..1" />
+          <End Role="Programari" Type="Self.Programari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Muncitori">
+              <PropertyRef Name="MuncitorID" />
+            </Principal>
+            <Dependent Role="Programari">
+              <PropertyRef Name="MuncitorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpalatorieEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clienti" EntityType="Self.Clienti" />
+          <EntitySet Name="IstoricProgramari" EntityType="Self.IstoricProgramari" />
+          <EntitySet Name="Manageri" EntityType="Self.Manageri" />
+          <EntitySet Name="Muncitori" EntityType="Self.Muncitori" />
+          <EntitySet Name="Programari" EntityType="Self.Programari" />
+          <EntitySet Name="ServiciiSpalatorie" EntityType="Self.ServiciiSpalatorie" />
+          <AssociationSet Name="FK__IstoricPr__Clien__1B0907CE" Association="Self.FK__IstoricPr__Clien__1B0907CE">
+            <End Role="Clienti" EntitySet="Clienti" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Programar__Clien__173876EA" Association="Self.FK__Programar__Clien__173876EA">
+            <End Role="Clienti" EntitySet="Clienti" />
+            <End Role="Programari" EntitySet="Programari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IstoricPr__Munci__1BFD2C07" Association="Self.FK__IstoricPr__Munci__1BFD2C07">
+            <End Role="Muncitori" EntitySet="Muncitori" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IstoricPr__Progr__1A14E395" Association="Self.FK__IstoricPr__Progr__1A14E395">
+            <End Role="Programari" EntitySet="Programari" />
+            <End Role="IstoricProgramari" EntitySet="IstoricProgramari" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Programar__Munci__164452B1" Association="Self.FK__Programar__Munci__164452B1">
+            <End Role="Muncitori" EntitySet="Muncitori" />
+            <End Role="Programari" EntitySet="Programari" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SpalatorieModelStoreContainer" CdmEntityContainer="SpalatorieEntities">
+          <EntitySetMapping Name="Clienti">
+            <EntityTypeMapping TypeName="SpalatorieModel.Clienti">
+              <MappingFragment StoreEntitySet="Clienti">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="NumarTelefon" ColumnName="NumarTelefon" />
+                <ScalarProperty Name="NumarInmatriculare" ColumnName="NumarInmatriculare" />
+                <ScalarProperty Name="AdresaEMAIL" ColumnName="AdresaEMAIL" />
+                <ScalarProperty Name="Parola" ColumnName="Parola" />
+                <ScalarProperty Name="TipClient" ColumnName="TipClient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IstoricProgramari">
+            <EntityTypeMapping TypeName="SpalatorieModel.IstoricProgramari">
+              <MappingFragment StoreEntitySet="IstoricProgramari">
+                <ScalarProperty Name="IstoricID" ColumnName="IstoricID" />
+                <ScalarProperty Name="ProgramareID" ColumnName="ProgramareID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="NumarTelefon" ColumnName="NumarTelefon" />
+                <ScalarProperty Name="NumarInmatriculare" ColumnName="NumarInmatriculare" />
+                <ScalarProperty Name="TipulSpalarii" ColumnName="TipulSpalarii" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Ora" ColumnName="Ora" />
+                <ScalarProperty Name="MuncitorID" ColumnName="MuncitorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manageri">
+            <EntityTypeMapping TypeName="SpalatorieModel.Manageri">
+              <MappingFragment StoreEntitySet="Manageri">
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="AdresaEMAIL" ColumnName="AdresaEMAIL" />
+                <ScalarProperty Name="Parola" ColumnName="Parola" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Muncitori">
+            <EntityTypeMapping TypeName="SpalatorieModel.Muncitori">
+              <MappingFragment StoreEntitySet="Muncitori">
+                <ScalarProperty Name="MuncitorID" ColumnName="MuncitorID" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="AdresaEMAIL" ColumnName="AdresaEMAIL" />
+                <ScalarProperty Name="Parola" ColumnName="Parola" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programari">
+            <EntityTypeMapping TypeName="SpalatorieModel.Programari">
+              <MappingFragment StoreEntitySet="Programari">
+                <ScalarProperty Name="ProgramareID" ColumnName="ProgramareID" />
+                <ScalarProperty Name="MuncitorID" ColumnName="MuncitorID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="NumarTelefon" ColumnName="NumarTelefon" />
+                <ScalarProperty Name="NumarInmatriculare" ColumnName="NumarInmatriculare" />
+                <ScalarProperty Name="TipulSpalarii" ColumnName="TipulSpalarii" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Ora" ColumnName="Ora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiciiSpalatorie">
+            <EntityTypeMapping TypeName="SpalatorieModel.ServiciiSpalatorie">
+              <MappingFragment StoreEntitySet="ServiciiSpalatorie">
+                <ScalarProperty Name="TipID" ColumnName="TipID" />
+                <ScalarProperty Name="TipSpalare" ColumnName="TipSpalare" />
+                <ScalarProperty Name="Pret" ColumnName="Pret" />
+                <ScalarProperty Name="PretRedus" ColumnName="PretRedus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

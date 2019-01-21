@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="AutoWash.PaginaPrincipalaUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutoWash"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Cyan"
+          Name="PaginaPrincipalaGridPanel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Source="spalaMasina.jpg"
+               Grid.Row="0"
+               Name="spalaMasinaImg"/>
+        <TextBlock Name="Welcome"
+                   Text="Bine ati venit la AutoWash!"
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   FontWeight="ExtraBlack"/>
+        <Grid Name="CategoryGrid"
+              Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Orientation="Vertical">
+                <TextBlock Text="Angajat"
+                           HorizontalAlignment="Right"
+                           FontSize="15"
+                           Margin="0 0 20 0"/>
+                <TextBlock Text="Client"
+                           HorizontalAlignment="Right"
+                           FontSize="15"
+                           Margin="0 0 20 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <RadioButton Name="AngajatRadioButton"
+                             VerticalAlignment="Center"
+                             Margin="0 5 0 0"/>
+                <RadioButton Name="ClientRadioButton"
+                             VerticalAlignment="Center"
+                             Margin="0 5 0 0"/>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Utilizator:"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0 0 15 0 "/>
+            <TextBox Name="UtilizatorTextBox"
+                     Grid.Column="1"
+                     Margin="10 10 10 10"
+                     VerticalContentAlignment="Center"
+                     FontSize="15"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Parola:"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0 0 15 0 "/>
+            <TextBox Name="ParolaTextBox"
+                     Grid.Column="1"
+                     Margin="10 10 10 10"
+                     VerticalContentAlignment="Center"
+                     FontSize="15"/>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0"
+                    Name="AutentificareButton"
+                    Click="AutentificareButton_Click"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Height="20"
+                    Width="100">
+                Autentificare
+            </Button>
+
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal">
+
+                <TextBlock Text="Nu ai cont?"
+                           Grid.Row="5"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="15"
+                           Margin="300 0 0 0 "/>
+                <Button Name="CreeazaContButton"
+                        Click="CreeazaContButton_Click"
+                        Margin="10 10 10 10"
+                        Width="100"
+                        Height="20"
+                        >Creeaza cont</Button>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</UserControl>
