@@ -21,13 +21,12 @@ namespace AutoWash
     public partial class ClientPageUS : UserControl
     {
         private Client Client { get; set; }
-        private List<Programari> appointments;
+        private List<Appointment> appointments;
         public ClientPageUS()
         {
             InitializeComponent();
             Client = new Client();
-
-            appointments = GetAppointments();
+            CreateAppointments();
             DataContext = appointments;
         }
 
@@ -37,19 +36,30 @@ namespace AutoWash
         {
             using (var data = new SpalatorieEntities())
             {
-                Appointment Programare = new Appointment();
-
-                Programari programare = new Programari();//DateTime.Parse(DataTextBox.Text),
-                 //   TimeSpan.Parse(OraTextBox.Text), MasinaTextBox.Text);
+                Programari programare = new Programari()
+                {
+                    ClientID = data.Clienti.First(c => c.Nume == Client.Nume).ClientID, 
+                    Data = DateTime.Parse(DataTextBox.Text),
+                    NumarInmatriculare = NrMasinaTextBox.Text,
+                    Ora = TimeSpan.Parse(OraTextBox.Text),
+                    TipulSpalarii = TipSpalareTextBox.Text
+                };
                 try
                 {
-
+                    if (data.Programari.Find(programare.Ora) != null)
+                    {
+                        throw (new Exception());
+                    }
+                    else
+                    {
+                        data.Programari.Add(programare);
+                        MessageBox.Show("Programarea a fost realizata cu succes!", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
                 catch(Exception exception)
                 {
-                    
+                    MessageBox.Show("Exista deja o programare la aceasta ora", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                data.Programari.Add(programare);
             }
         }
 
@@ -58,16 +68,33 @@ namespace AutoWash
             this.Visibility = Visibility.Hidden;
         }
 
-        private List<Programari> GetAppointments()
+        private void CreateAppointments()
         {
+            int i = 0;
             using (var data = new SpalatorieEntities())
             {
-                return data.Programari.ToList<Programari>();
+                foreach (var programare in data.Programari)
+                {
+                    if(programare.ClientID == data.Clienti.First(c => c.Nume == Client.Nume).ClientID)
+                    {
+                        appointments[i] = new Appointment()
+                        {
+                            ClientName = Client.Nume,
+                            ClientFirstName = Client.Prenume,
+                            CarNumber = programare.NumarInmatriculare,
+                            Date = programare.Data,
+                            Hour = programare.Ora,
+                            WashType = programare.TipulSpalarii
+                        };
+                        if (data.Clienti.First(c => c.Nume == Client.Nume).TipClient == "Permanent")
+                        {
+                            appointments[i].Cost = data.ServiciiSpalatorie.First(c => c.TipSpalare == programare.TipulSpalarii).PretRedus;
+                        }
+                        else appointments[i].Cost = data.ServiciiSpalatorie.First(c => c.TipSpalare == programare.TipulSpalarii).Pret;
+                        i++;
+                    }
+                }
             }
-        }
-        private void CreateAppointment(Appointment appointment, SpalatorieEntities data)
-        {
-           
         }
         public void SetClient(string nume, string prenume)
         {
